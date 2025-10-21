@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "hello"
-date: 2025-10-22
+date: 2025-10-21
 ---
 
 Normalizably neutral terms are needed to prove that for theorem 1.
