@@ -1,3 +1,9 @@
+---
+layout: post
+title: "Hello"
+date: 2025-10-22
+---
+
 Normalizably neutral terms are needed to prove that for theorem 1.
 
 It is written as $\mathsf{N N}$ for neutral terms $U$. Neutral terms can
