@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Hello"
+title: "hello"
 date: 2025-10-22
 ---
 
