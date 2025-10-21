@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "hello"
+title: "Kripke Style Logical Relation for Normalization"
 date: 2025-10-21
 ---
 
