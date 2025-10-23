@@ -15,6 +15,10 @@ behavioral equality 也能说的过去。之所以这里都列出来，是因为
 equality 确实是有一些"meta"的感觉的，某种意义上可以称为 functional
 interpreted equality 的。
 
+下面是定义 term 之间的一个二元关系
+![\\doteq](https://latex.codecogs.com/svg.image?%5Cdoteq "\doteq")
+的定义。这是之前的 hereditary termination 的一个扩展？
+
 ![\\begin{aligned}
 M \\doteq M\' \\in \\text{ans} & \\text{ iff } M, M\' \\stackrel{\*}{\\longmapsto} \\text{yes} \\text{ or } M, M\' \\stackrel{\*}{\\longmapsto} \\text{no} \\\\
 M \\doteq M\' \\in \\text{unit} & \\text{ iff } M, M\' \\stackrel{\*}{\\longmapsto} \\langle \\rangle \\\\
@@ -30,9 +34,6 @@ M \doteq M' \in A_1 \times A_2 & \text{ iff } M \longmapsto \langle M_1, M_2 \ra
 M \doteq M' \in A_1 \rightarrow A_2 & \text{ iff } M \stackrel{*}{\longmapsto} \lambda(x.N), M' \stackrel{*}{\longmapsto} \lambda(x.N'), \text{ and} \\
 & \text{if } M_1 \doteq M'_1 \in A_1 \text{ then } [M_1/x]N \doteq [M'_1/x]N' \in A_2
 \end{aligned}")
-
-注意到 ![M](https://latex.codecogs.com/svg.image?M "M") 应当是 closed
-的。
 
 这里
 ![M \\in A](https://latex.codecogs.com/svg.image?M%20%5Cin%20A "M \in A")
@@ -145,49 +146,36 @@ Trivial!
 
 这里是 rules
 
-![\\begin{gathered}
-\\text{REFL} \\quad \\frac{\\Gamma \\vdash M : A}{\\Gamma \\vdash M \\equiv M : A} \\qquad
-\\text{SYM} \\quad \\frac{\\Gamma \\vdash M \\equiv N : A}{\\Gamma \\vdash N \\equiv M : A} \\\\
-\\text{TRANS} \\quad \\frac{\\Gamma \\vdash M \\equiv N : A \\quad \\Gamma \\vdash N \\equiv P : A}{\\Gamma \\vdash M \\equiv P : A} \\qquad
-\\text{1-\$\\eta\$} \\quad \\frac{\\Gamma \\vdash M : 1}{\\Gamma \\vdash M \\equiv \\langle \\rangle : 1} \\\\
-\\text{\$\\times\$-I} \\quad \\frac{\\Gamma \\vdash M_1 \\equiv N_1 : A_1 \\quad \\Gamma \\vdash M_2 \\equiv N_2 : A_2}{\\Gamma \\vdash \\langle M_1, M_2 \\rangle \\equiv \\langle N_1, N_2 \\rangle : A_1 \\times A_2}
-\\end{gathered}](https://latex.codecogs.com/svg.image?%5Cbegin%7Bgathered%7D%0A%5Ctext%7BREFL%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%3A%20A%7D%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20M%20%3A%20A%7D%20%5Cqquad%0A%5Ctext%7BSYM%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20N%20%3A%20A%7D%7B%5CGamma%20%5Cvdash%20N%20%5Cequiv%20M%20%3A%20A%7D%20%5C%5C%0A%5Ctext%7BTRANS%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20N%20%3A%20A%20%5Cquad%20%5CGamma%20%5Cvdash%20N%20%5Cequiv%20P%20%3A%20A%7D%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20P%20%3A%20A%7D%20%5Cqquad%0A%5Ctext%7B1-%24%5Ceta%24%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%3A%201%7D%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20%5Clangle%20%5Crangle%20%3A%201%7D%20%5C%5C%0A%5Ctext%7B%24%5Ctimes%24-I%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M_1%20%5Cequiv%20N_1%20%3A%20A_1%20%5Cquad%20%5CGamma%20%5Cvdash%20M_2%20%5Cequiv%20N_2%20%3A%20A_2%7D%7B%5CGamma%20%5Cvdash%20%5Clangle%20M_1%2C%20M_2%20%5Crangle%20%5Cequiv%20%5Clangle%20N_1%2C%20N_2%20%5Crangle%20%3A%20A_1%20%5Ctimes%20A_2%7D%0A%5Cend%7Bgathered%7D "\begin{gathered}
-\text{REFL} \quad \frac{\Gamma \vdash M : A}{\Gamma \vdash M \equiv M : A} \qquad
-\text{SYM} \quad \frac{\Gamma \vdash M \equiv N : A}{\Gamma \vdash N \equiv M : A} \\
-\text{TRANS} \quad \frac{\Gamma \vdash M \equiv N : A \quad \Gamma \vdash N \equiv P : A}{\Gamma \vdash M \equiv P : A} \qquad
-\text{1-$\eta$} \quad \frac{\Gamma \vdash M : 1}{\Gamma \vdash M \equiv \langle \rangle : 1} \\
-\text{$\times$-I} \quad \frac{\Gamma \vdash M_1 \equiv N_1 : A_1 \quad \Gamma \vdash M_2 \equiv N_2 : A_2}{\Gamma \vdash \langle M_1, M_2 \rangle \equiv \langle N_1, N_2 \rangle : A_1 \times A_2}
-\end{gathered}")
+![\\text{REFL} \\quad \\frac{\\Gamma \\vdash M : A}{\\Gamma \\vdash M \\equiv M : A} \\qquad
+\\text{SYM} \\quad \\frac{\\Gamma \\vdash M \\equiv N : A}{\\Gamma \\vdash N \\equiv M : A}](https://latex.codecogs.com/svg.image?%5Ctext%7BREFL%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%3A%20A%7D%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20M%20%3A%20A%7D%20%5Cqquad%0A%5Ctext%7BSYM%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20N%20%3A%20A%7D%7B%5CGamma%20%5Cvdash%20N%20%5Cequiv%20M%20%3A%20A%7D "\text{REFL} \quad \frac{\Gamma \vdash M : A}{\Gamma \vdash M \equiv M : A} \qquad
+\text{SYM} \quad \frac{\Gamma \vdash M \equiv N : A}{\Gamma \vdash N \equiv M : A}")
 
-![\\begin{gathered}
-\\text{\$\\times\$-\$\\beta\$-L} \\quad \\frac{\\Gamma \\vdash M_1 : A_1 \\quad \\Gamma \\vdash M_2 : A_2}{\\Gamma \\vdash \\langle M_1, M_2 \\rangle \\cdot 1 \\equiv M_1 : A_1} \\\\
-\\text{\$\\times\$-\$\\eta\$} \\quad \\frac{\\Gamma \\vdash M : A_1 \\times A_2}{\\Gamma \\vdash M \\equiv \\langle M \\cdot 1, M \\cdot 2 \\rangle : A_1 \\times A_2} \\\\
-\\text{\$\\rightarrow\$-E} \\quad \\frac{\\Gamma \\vdash M \\equiv N : A_1 \\rightarrow A_2 \\quad \\Gamma \\vdash M_1 \\equiv N_1 : A_1}{\\Gamma \\vdash \\text{ap}(M; M_1) \\equiv \\text{ap}(N; N_1) : A_2} \\\\
-\\text{\$\\rightarrow\$-\$\\eta\$} \\quad \\frac{\\Gamma \\vdash M : A_1 \\rightarrow A_2}{\\Gamma \\vdash M \\equiv \\lambda(x. \\text{ap}(M; x)) : A_1 \\rightarrow A_2}
-\\end{gathered}](https://latex.codecogs.com/svg.image?%5Cbegin%7Bgathered%7D%0A%5Ctext%7B%24%5Ctimes%24-%24%5Cbeta%24-L%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M_1%20%3A%20A_1%20%5Cquad%20%5CGamma%20%5Cvdash%20M_2%20%3A%20A_2%7D%7B%5CGamma%20%5Cvdash%20%5Clangle%20M_1%2C%20M_2%20%5Crangle%20%5Ccdot%201%20%5Cequiv%20M_1%20%3A%20A_1%7D%20%5C%5C%0A%5Ctext%7B%24%5Ctimes%24-%24%5Ceta%24%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%3A%20A_1%20%5Ctimes%20A_2%7D%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20%5Clangle%20M%20%5Ccdot%201%2C%20M%20%5Ccdot%202%20%5Crangle%20%3A%20A_1%20%5Ctimes%20A_2%7D%20%5C%5C%0A%5Ctext%7B%24%5Crightarrow%24-E%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20N%20%3A%20A_1%20%5Crightarrow%20A_2%20%5Cquad%20%5CGamma%20%5Cvdash%20M_1%20%5Cequiv%20N_1%20%3A%20A_1%7D%7B%5CGamma%20%5Cvdash%20%5Ctext%7Bap%7D%28M%3B%20M_1%29%20%5Cequiv%20%5Ctext%7Bap%7D%28N%3B%20N_1%29%20%3A%20A_2%7D%20%5C%5C%0A%5Ctext%7B%24%5Crightarrow%24-%24%5Ceta%24%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%3A%20A_1%20%5Crightarrow%20A_2%7D%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20%5Clambda%28x.%20%5Ctext%7Bap%7D%28M%3B%20x%29%29%20%3A%20A_1%20%5Crightarrow%20A_2%7D%0A%5Cend%7Bgathered%7D "\begin{gathered}
-\text{$\times$-$\beta$-L} \quad \frac{\Gamma \vdash M_1 : A_1 \quad \Gamma \vdash M_2 : A_2}{\Gamma \vdash \langle M_1, M_2 \rangle \cdot 1 \equiv M_1 : A_1} \\
-\text{$\times$-$\eta$} \quad \frac{\Gamma \vdash M : A_1 \times A_2}{\Gamma \vdash M \equiv \langle M \cdot 1, M \cdot 2 \rangle : A_1 \times A_2} \\
-\text{$\rightarrow$-E} \quad \frac{\Gamma \vdash M \equiv N : A_1 \rightarrow A_2 \quad \Gamma \vdash M_1 \equiv N_1 : A_1}{\Gamma \vdash \text{ap}(M; M_1) \equiv \text{ap}(N; N_1) : A_2} \\
-\text{$\rightarrow$-$\eta$} \quad \frac{\Gamma \vdash M : A_1 \rightarrow A_2}{\Gamma \vdash M \equiv \lambda(x. \text{ap}(M; x)) : A_1 \rightarrow A_2}
-\end{gathered}")
+![\\text{TRANS} \\quad \\frac{\\Gamma \\vdash M \\equiv N : A \\quad \\Gamma \\vdash N \\equiv P : A}{\\Gamma \\vdash M \\equiv P : A} \\qquad
+\\text{1-\$\\eta\$} \\quad \\frac{\\Gamma \\vdash M : 1}{\\Gamma \\vdash M \\equiv \\langle \\rangle : 1}](https://latex.codecogs.com/svg.image?%5Ctext%7BTRANS%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20N%20%3A%20A%20%5Cquad%20%5CGamma%20%5Cvdash%20N%20%5Cequiv%20P%20%3A%20A%7D%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20P%20%3A%20A%7D%20%5Cqquad%0A%5Ctext%7B1-%24%5Ceta%24%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%3A%201%7D%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20%5Clangle%20%5Crangle%20%3A%201%7D "\text{TRANS} \quad \frac{\Gamma \vdash M \equiv N : A \quad \Gamma \vdash N \equiv P : A}{\Gamma \vdash M \equiv P : A} \qquad
+\text{1-$\eta$} \quad \frac{\Gamma \vdash M : 1}{\Gamma \vdash M \equiv \langle \rangle : 1}")
 
-![\\begin{gathered}
-\\text{\$\\times\$-E-L} \\quad \\frac{\\Gamma \\vdash M \\equiv N : A_1 \\times A_2}{\\Gamma \\vdash M \\cdot 1 \\equiv N \\cdot 1 : A_1}
+![\\text{\$\\times\$-I} \\quad \\frac{\\Gamma \\vdash M_1 \\equiv N_1 : A_1 \\quad \\Gamma \\vdash M_2 \\equiv N_2 : A_2}{\\Gamma \\vdash \\langle M_1, M_2 \\rangle \\equiv \\langle N_1, N_2 \\rangle : A_1 \\times A_2}](https://latex.codecogs.com/svg.image?%5Ctext%7B%24%5Ctimes%24-I%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M_1%20%5Cequiv%20N_1%20%3A%20A_1%20%5Cquad%20%5CGamma%20%5Cvdash%20M_2%20%5Cequiv%20N_2%20%3A%20A_2%7D%7B%5CGamma%20%5Cvdash%20%5Clangle%20M_1%2C%20M_2%20%5Crangle%20%5Cequiv%20%5Clangle%20N_1%2C%20N_2%20%5Crangle%20%3A%20A_1%20%5Ctimes%20A_2%7D "\text{$\times$-I} \quad \frac{\Gamma \vdash M_1 \equiv N_1 : A_1 \quad \Gamma \vdash M_2 \equiv N_2 : A_2}{\Gamma \vdash \langle M_1, M_2 \rangle \equiv \langle N_1, N_2 \rangle : A_1 \times A_2}")
+
+![\\text{\$\\times\$-\$\\beta\$-L} \\quad \\frac{\\Gamma \\vdash M_1 : A_1 \\quad \\Gamma \\vdash M_2 : A_2}{\\Gamma \\vdash \\langle M_1, M_2 \\rangle \\cdot 1 \\equiv M_1 : A_1}](https://latex.codecogs.com/svg.image?%5Ctext%7B%24%5Ctimes%24-%24%5Cbeta%24-L%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M_1%20%3A%20A_1%20%5Cquad%20%5CGamma%20%5Cvdash%20M_2%20%3A%20A_2%7D%7B%5CGamma%20%5Cvdash%20%5Clangle%20M_1%2C%20M_2%20%5Crangle%20%5Ccdot%201%20%5Cequiv%20M_1%20%3A%20A_1%7D "\text{$\times$-$\beta$-L} \quad \frac{\Gamma \vdash M_1 : A_1 \quad \Gamma \vdash M_2 : A_2}{\Gamma \vdash \langle M_1, M_2 \rangle \cdot 1 \equiv M_1 : A_1}")
+
+![\\text{\$\\times\$-\$\\eta\$} \\quad \\frac{\\Gamma \\vdash M : A_1 \\times A_2}{\\Gamma \\vdash M \\equiv \\langle M \\cdot 1, M \\cdot 2 \\rangle : A_1 \\times A_2}](https://latex.codecogs.com/svg.image?%5Ctext%7B%24%5Ctimes%24-%24%5Ceta%24%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%3A%20A_1%20%5Ctimes%20A_2%7D%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20%5Clangle%20M%20%5Ccdot%201%2C%20M%20%5Ccdot%202%20%5Crangle%20%3A%20A_1%20%5Ctimes%20A_2%7D "\text{$\times$-$\eta$} \quad \frac{\Gamma \vdash M : A_1 \times A_2}{\Gamma \vdash M \equiv \langle M \cdot 1, M \cdot 2 \rangle : A_1 \times A_2}")
+
+![\\text{\$\\rightarrow\$-E} \\quad \\frac{\\Gamma \\vdash M \\equiv N : A_1 \\rightarrow A_2 \\quad \\Gamma \\vdash M_1 \\equiv N_1 : A_1}{\\Gamma \\vdash \\text{ap}(M; M_1) \\equiv \\text{ap}(N; N_1) : A_2}](https://latex.codecogs.com/svg.image?%5Ctext%7B%24%5Crightarrow%24-E%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20N%20%3A%20A_1%20%5Crightarrow%20A_2%20%5Cquad%20%5CGamma%20%5Cvdash%20M_1%20%5Cequiv%20N_1%20%3A%20A_1%7D%7B%5CGamma%20%5Cvdash%20%5Ctext%7Bap%7D%28M%3B%20M_1%29%20%5Cequiv%20%5Ctext%7Bap%7D%28N%3B%20N_1%29%20%3A%20A_2%7D "\text{$\rightarrow$-E} \quad \frac{\Gamma \vdash M \equiv N : A_1 \rightarrow A_2 \quad \Gamma \vdash M_1 \equiv N_1 : A_1}{\Gamma \vdash \text{ap}(M; M_1) \equiv \text{ap}(N; N_1) : A_2}")
+
+![\\text{\$\\rightarrow\$-\$\\eta\$} \\quad \\frac{\\Gamma \\vdash M : A_1 \\rightarrow A_2}{\\Gamma \\vdash M \\equiv \\lambda(x. \\text{ap}(M; x)) : A_1 \\rightarrow A_2}](https://latex.codecogs.com/svg.image?%5Ctext%7B%24%5Crightarrow%24-%24%5Ceta%24%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%3A%20A_1%20%5Crightarrow%20A_2%7D%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20%5Clambda%28x.%20%5Ctext%7Bap%7D%28M%3B%20x%29%29%20%3A%20A_1%20%5Crightarrow%20A_2%7D "\text{$\rightarrow$-$\eta$} \quad \frac{\Gamma \vdash M : A_1 \rightarrow A_2}{\Gamma \vdash M \equiv \lambda(x. \text{ap}(M; x)) : A_1 \rightarrow A_2}")
+
+![\\text{\$\\times\$-E-L} \\quad \\frac{\\Gamma \\vdash M \\equiv N : A_1 \\times A_2}{\\Gamma \\vdash M \\cdot 1 \\equiv N \\cdot 1 : A_1}
 \\quad
-\\text{\$\\times\$-E-R} \\quad \\frac{\\Gamma \\vdash M \\equiv N : A_1 \\times A_2}{\\Gamma \\vdash M \\cdot 2 \\equiv N \\cdot 2 : A_2} \\\\
-\\text{\$\\rightarrow\$-I} \\quad \\frac{\\Gamma, x : A_1 \\vdash M_2 \\equiv N_2 : A_2}{\\Gamma \\vdash \\lambda(x.M_2) \\equiv \\lambda(x.N_2) : A_1 \\rightarrow A_2} \\\\
-\\text{\$\\rightarrow\$-\$\\beta\$} \\quad \\frac{\\Gamma, x : A_1 \\vdash M_2 : A_2 \\quad \\Gamma \\vdash M_1 : A_1}{\\Gamma \\vdash \\text{ap}(\\lambda(x.M_2); M_1) \\equiv \[M_1/x\]M_2 : A_2}
-\\end{gathered}](https://latex.codecogs.com/svg.image?%5Cbegin%7Bgathered%7D%0A%5Ctext%7B%24%5Ctimes%24-E-L%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20N%20%3A%20A_1%20%5Ctimes%20A_2%7D%7B%5CGamma%20%5Cvdash%20M%20%5Ccdot%201%20%5Cequiv%20N%20%5Ccdot%201%20%3A%20A_1%7D%0A%5Cquad%0A%5Ctext%7B%24%5Ctimes%24-E-R%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20N%20%3A%20A_1%20%5Ctimes%20A_2%7D%7B%5CGamma%20%5Cvdash%20M%20%5Ccdot%202%20%5Cequiv%20N%20%5Ccdot%202%20%3A%20A_2%7D%20%5C%5C%0A%5Ctext%7B%24%5Crightarrow%24-I%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%2C%20x%20%3A%20A_1%20%5Cvdash%20M_2%20%5Cequiv%20N_2%20%3A%20A_2%7D%7B%5CGamma%20%5Cvdash%20%5Clambda%28x.M_2%29%20%5Cequiv%20%5Clambda%28x.N_2%29%20%3A%20A_1%20%5Crightarrow%20A_2%7D%20%5C%5C%0A%5Ctext%7B%24%5Crightarrow%24-%24%5Cbeta%24%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%2C%20x%20%3A%20A_1%20%5Cvdash%20M_2%20%3A%20A_2%20%5Cquad%20%5CGamma%20%5Cvdash%20M_1%20%3A%20A_1%7D%7B%5CGamma%20%5Cvdash%20%5Ctext%7Bap%7D%28%5Clambda%28x.M_2%29%3B%20M_1%29%20%5Cequiv%20%5BM_1%2Fx%5DM_2%20%3A%20A_2%7D%0A%5Cend%7Bgathered%7D "\begin{gathered}
-\text{$\times$-E-L} \quad \frac{\Gamma \vdash M \equiv N : A_1 \times A_2}{\Gamma \vdash M \cdot 1 \equiv N \cdot 1 : A_1}
+\\text{\$\\times\$-E-R} \\quad \\frac{\\Gamma \\vdash M \\equiv N : A_1 \\times A_2}{\\Gamma \\vdash M \\cdot 2 \\equiv N \\cdot 2 : A_2}](https://latex.codecogs.com/svg.image?%5Ctext%7B%24%5Ctimes%24-E-L%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20N%20%3A%20A_1%20%5Ctimes%20A_2%7D%7B%5CGamma%20%5Cvdash%20M%20%5Ccdot%201%20%5Cequiv%20N%20%5Ccdot%201%20%3A%20A_1%7D%0A%5Cquad%0A%5Ctext%7B%24%5Ctimes%24-E-R%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20N%20%3A%20A_1%20%5Ctimes%20A_2%7D%7B%5CGamma%20%5Cvdash%20M%20%5Ccdot%202%20%5Cequiv%20N%20%5Ccdot%202%20%3A%20A_2%7D "\text{$\times$-E-L} \quad \frac{\Gamma \vdash M \equiv N : A_1 \times A_2}{\Gamma \vdash M \cdot 1 \equiv N \cdot 1 : A_1}
 \quad
-\text{$\times$-E-R} \quad \frac{\Gamma \vdash M \equiv N : A_1 \times A_2}{\Gamma \vdash M \cdot 2 \equiv N \cdot 2 : A_2} \\
-\text{$\rightarrow$-I} \quad \frac{\Gamma, x : A_1 \vdash M_2 \equiv N_2 : A_2}{\Gamma \vdash \lambda(x.M_2) \equiv \lambda(x.N_2) : A_1 \rightarrow A_2} \\
-\text{$\rightarrow$-$\beta$} \quad \frac{\Gamma, x : A_1 \vdash M_2 : A_2 \quad \Gamma \vdash M_1 : A_1}{\Gamma \vdash \text{ap}(\lambda(x.M_2); M_1) \equiv [M_1/x]M_2 : A_2}
-\end{gathered}")
+\text{$\times$-E-R} \quad \frac{\Gamma \vdash M \equiv N : A_1 \times A_2}{\Gamma \vdash M \cdot 2 \equiv N \cdot 2 : A_2}")
 
-你应该注意到
-![\\eta](https://latex.codecogs.com/svg.image?%5Ceta "\eta") rule 是某种
-expansion 而
+![\\text{\$\\rightarrow\$-I} \\quad \\frac{\\Gamma, x : A_1 \\vdash M_2 \\equiv N_2 : A_2}{\\Gamma \\vdash \\lambda(x.M_2) \\equiv \\lambda(x.N_2) : A_1 \\rightarrow A_2}](https://latex.codecogs.com/svg.image?%5Ctext%7B%24%5Crightarrow%24-I%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%2C%20x%20%3A%20A_1%20%5Cvdash%20M_2%20%5Cequiv%20N_2%20%3A%20A_2%7D%7B%5CGamma%20%5Cvdash%20%5Clambda%28x.M_2%29%20%5Cequiv%20%5Clambda%28x.N_2%29%20%3A%20A_1%20%5Crightarrow%20A_2%7D "\text{$\rightarrow$-I} \quad \frac{\Gamma, x : A_1 \vdash M_2 \equiv N_2 : A_2}{\Gamma \vdash \lambda(x.M_2) \equiv \lambda(x.N_2) : A_1 \rightarrow A_2}")
+
+![\\text{\$\\rightarrow\$-\$\\beta\$} \\quad \\frac{\\Gamma, x : A_1 \\vdash M_2 : A_2 \\quad \\Gamma \\vdash M_1 : A_1}{\\Gamma \\vdash \\text{ap}(\\lambda(x.M_2); M_1) \\equiv \[M_1/x\]M_2 : A_2}](https://latex.codecogs.com/svg.image?%5Ctext%7B%24%5Crightarrow%24-%24%5Cbeta%24%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%2C%20x%20%3A%20A_1%20%5Cvdash%20M_2%20%3A%20A_2%20%5Cquad%20%5CGamma%20%5Cvdash%20M_1%20%3A%20A_1%7D%7B%5CGamma%20%5Cvdash%20%5Ctext%7Bap%7D%28%5Clambda%28x.M_2%29%3B%20M_1%29%20%5Cequiv%20%5BM_1%2Fx%5DM_2%20%3A%20A_2%7D "\text{$\rightarrow$-$\beta$} \quad \frac{\Gamma, x : A_1 \vdash M_2 : A_2 \quad \Gamma \vdash M_1 : A_1}{\Gamma \vdash \text{ap}(\lambda(x.M_2); M_1) \equiv [M_1/x]M_2 : A_2}")
+
+注意到 ![\\eta](https://latex.codecogs.com/svg.image?%5Ceta "\eta") rule
+是某种 expansion 而
 ![\\beta](https://latex.codecogs.com/svg.image?%5Cbeta "\beta") rule 是
 reduction 。之后还会有 commutativity rules。
 
