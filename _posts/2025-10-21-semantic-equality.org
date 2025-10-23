@@ -1,0 +1,151 @@
+#+title:Semantic Equality for Typed Lambda Calculus
+
+* Semantic Equality Definition
+
+这里的 \(\doteq\) 被称为 semantic equality 又被称为 exact equality 。如果只看
+function 类型的话，不难发现这是被称为 extensional equality 的事物。称其为
+behavioral equality 也能说的过去。之所以这里都列出来，是因为 Bob 在这里的称呼
+就没怎么统一过。
+
+可以理解为 axiomtic equality 是 equality defined rules 。而 extensional
+equality 确实是有一些“meta”的感觉的，某种意义上可以称为 functional interpreted
+equality 的。
+
+下面是定义 term 之间的一个二元关系 \(\doteq\) 的定义。这是之前的 hereditary
+termination 的一个扩展？
+\[\begin{aligned}
+M \doteq M' \in \text{ans} & \text{ iff } M, M' \stackrel{*}{\longmapsto} \text{yes} \text{ or } M, M' \stackrel{*}{\longmapsto} \text{no} \\
+M \doteq M' \in \text{unit} & \text{ iff } M, M' \stackrel{*}{\longmapsto} \langle \rangle \\
+M \doteq M' \in A_1 \times A_2 & \text{ iff } M \longmapsto \langle M_1, M_2 \rangle, M' \longmapsto \langle M'_1, M'_2 \rangle, \text{ and} \\
+& M_1 \doteq M'_1 \in A_1 \text{ and } M_2 \doteq M'_2 \in A_2 \\
+M \doteq M' \in A_1 \rightarrow A_2 & \text{ iff } M \stackrel{*}{\longmapsto} \lambda(x.N), M' \stackrel{*}{\longmapsto} \lambda(x.N'), \text{ and} \\
+& \text{if } M_1 \doteq M'_1 \in A_1 \text{ then } [M_1/x]N \doteq [M'_1/x]N' \in A_2
+\end{aligned}\]
+这里 \(M \in A\) is short for \(M = M \in A\)
+
+lemma 1: the relation is symmetric and transitive
+1. \(M \doteq M' \in A\) implies \(M' \doteq M \in A\).
+2. \(M_1 \doteq M_2 \in A\) and \(M_2 \doteq M_3 \in A\) implies \(M_1 \doteq M_3 \in A\)
+
+The proof is omitted since simple induction on type \(A\) is more than enough.
+
+A symmetric and transitive relation is called a partial equivalence relations.
+
+The relation can also extend to a closed substi \(\gamma\), variable-wise equivalence:
+\[\gamma \doteq \gamma' \in \Gamma := \forall x : A \in \Gamma, \gamma(x) \doteq \gamma'(x) \in A\]
+And we define \(\Gamma \gg M \doteq M ' \in A\) (which is relation between \(M\) and \(M'\)):
+\[\gamma \doteq \gamma' \in \Gamma \implies \hat\gamma (M) \doteq \hat \gamma'(M')\in A\]
+for open terms \(M\) and \(M'\), we say they are equivalent if for every variable-wise equivalent substi \(\gamma\) and \(\gamma'\), the results of the substi are equivalent.
+
+*lemma 2 head expansion*
+If \(N \longmapsto M\) and \(M \doteq M ' \in A\) then \(N \doteq M ' \in A\).
+
+*Theorem 3*:
+If \(\Gamma \vdash M : A\) then \(\Gamma \gg M \in A\).
+
+*lemma 4 (sym and trans)*
+1. \(\Gamma \gg M \doteq M ' \in A\), then \(\Gamma \gg M ' = M \in A\).
+2. \(\Gamma \gg M \doteq M' \in A\) and \(\Gamma \gg M' \doteq M'' \in A\), then \(\Gamma \gg M \doteq M'' \in A\).
+
+Here is the proof. I would say that this is not that hard.
+
+1. Given \(\Gamma \gg M \doteq M ' \in A\) and \(\gamma ' \doteq \gamma \in \Gamma\), to prove that \(\gamma ' (M') \doteq \gamma (M) \in A\). It is obvious that we can have \(\gamma \doteq \gamma' \in \Gamma\) from \(\gamma' \doteq \gamma \in \Gamma\), and thus applies this \(\gamma \doteq \gamma ' \in \Gamma\) to \(\Gamma \gg M \doteq  M ' \in A\) we have the \(\gamma(M) \doteq \gamma ' (M')\in \Gamma\) and use the reflexivity of \(\doteq\) we have the desired results.
+   Which is pretty obvious
+2. Given \(\gamma \doteq \gamma '' \in \Gamma\) we want to prove \(\gamma (M) \doteq \gamma''(M'') \in A\). How? If we apply (instantiate) to two premises, we will have
+   - \(\gamma (M)\doteq \gamma'' (M')\in A\)
+   - \(\gamma(M')\doteq \gamma'' (M'') \in A\)
+   which is not enough for anything.
+   But we can apply \(\gamma'' \doteq \gamma'' \in \Gamma\) to the second premise. and we have these two:
+   - \(\gamma(M)\doteq \gamma''(M') \in A\)
+   - \(\gamma''(M')\doteq \gamma'' (M'')\in A\)
+   which is more than enough to prove \(\gamma(M)\doteq \gamma'' (M'')\in A\) using transitivity.
+
+Trivial!
+
+* Definitional (Axiomatic) Equality
+
+\[\text{REFL} \quad \frac{\Gamma \vdash M : A}{\Gamma \vdash M \equiv M : A} \qquad
+\text{SYM} \quad \frac{\Gamma \vdash M \equiv N : A}{\Gamma \vdash N \equiv M : A}\]
+\[\text{TRANS} \quad \frac{\Gamma \vdash M \equiv N : A \quad \Gamma \vdash N \equiv P : A}{\Gamma \vdash M \equiv P : A} \qquad
+\text{1-}\eta \quad \frac{\Gamma \vdash M : 1}{\Gamma \vdash M \equiv \langle \rangle : 1} \]
+\[\times\text{-I} \quad \frac{\Gamma \vdash M_1 \equiv N_1 : A_1 \quad \Gamma \vdash M_2 \equiv N_2 : A_2}{\Gamma \vdash \langle M_1, M_2 \rangle \equiv \langle N_1, N_2 \rangle : A_1 \times A_2}\]
+
+\[\times\text{-}\beta\text{-L} \quad \frac{\Gamma \vdash M_1 : A_1 \quad \Gamma \vdash M_2 : A_2}{\Gamma \vdash \langle M_1, M_2 \rangle \cdot 1 \equiv M_1 : A_1}\]
+
+\[\times\text{-}\eta \quad \frac{\Gamma \vdash M : A_1 \times A_2}{\Gamma \vdash M \equiv \langle M \cdot 1, M \cdot 2 \rangle : A_1 \times A_2} \]
+
+\[\to\text{-E} \quad \frac{\Gamma \vdash M \equiv N : A_1 \rightarrow A_2 \quad \Gamma \vdash M_1 \equiv N_1 : A_1}{\Gamma \vdash \text{ap}(M; M_1) \equiv \text{ap}(N; N_1) : A_2} \]
+
+\[\to\text{-}\eta \quad \frac{\Gamma \vdash M : A_1 \rightarrow A_2}{\Gamma \vdash M \equiv \lambda(x. \text{ap}(M; x)) : A_1 \rightarrow A_2}\]
+
+\[\times\text{-E-L} \quad \frac{\Gamma \vdash M \equiv N : A_1 \times A_2}{\Gamma \vdash M \cdot 1 \equiv N \cdot 1 : A_1}
+\quad
+\times\text{-E-R} \quad \frac{\Gamma \vdash M \equiv N : A_1 \times A_2}{\Gamma \vdash M \cdot 2 \equiv N \cdot 2 : A_2}\]
+
+\[\rightarrow\text{-I} \quad \frac{\Gamma, x : A_1 \vdash M_2 \equiv N_2 : A_2}{\Gamma \vdash \lambda(x.M_2) \equiv \lambda(x.N_2) : A_1 \rightarrow A_2}\]
+
+\[\rightarrow\text{-}\beta \quad \frac{\Gamma, x : A_1 \vdash M_2 : A_2 \quad \Gamma \vdash M_1 : A_1}{\Gamma \vdash \text{ap}(\lambda(x.M_2); M_1) \equiv [M_1/x]M_2 : A_2}\]
+
+注意到 \(\eta\) rule 是某种 expansion 而 \(\beta\) rule 是 reduction 。之后还会有 commutativity rules。
+
+*theorem 5*
+
+If \(\Gamma \vdash M \equiv N : A\), then \(\hat \gamma (M) \doteq \hat \gamma ' (N) \in A\), for all \(\gamma \doteq \gamma' \in \Gamma\)。注意这里和 \(\Gamma \gg M \doteq M' \in A\) 不太一样。这里的是通过 \(\equiv\) 的到了 \(\doteq\)。
+
+证明可以是类似的。可以看见 \(\equiv\) 的定义是 structural 的，我们在 \(\equiv\) 上面做 induction。
+
+但是 \(\equiv\) 的 rule 足足有 14 条，我们的证明将会非常的 verbose 而且没什么意义，但依然
+
+- REFL.
+  \(\Gamma \vdash M \equiv M : A\) 需要证明 \(\hat M \doteq \hat M' \in A\) ，怎么说？应该是明显的吧，直接从 \(\Gamma \vdash M : A\) 到 \(\Gamma \gg M \in A\) 上就行了。前面已经有的结论。
+- SYM.
+  \(\Gamma \vdash M \equiv N : A\) ，给了 \(\Gamma \vdash N \equiv M : A\) 。递归（induction）。
+- TRANS.
+  \(\Gamma \vdash M \equiv P : A\) ，给了 \(\Gamma \vdash M \equiv N : A\) 以及 \(\Gamma \vdash N \equiv P : A\) 。证明 \(\hat M \doteq \hat  P' : A\).
+  - 使用 induction ，第一个 premise 加上 \(\gamma \doteq \gamma \in \Gamma\) 得到 \(\hat M \doteq \hat N : A\).
+  - 第二个 premise 加上 \(\gamma \doteq \gamma' \in \Gamma\)  得到 \(\hat N \doteq P' : A\)
+  使用 transitivity of \(\doteq\) 得证
+- 1-\(\eta\).
+  \(\Gamma \vdash M \equiv \langle\rangle : 1\) 。证明 \(\hat M \doteq \langle \rangle : 1\) 。因为 \(\hat M\) 是 closed 的所以后者根据定义是显然的。
+- \(\times\)-I.
+  \(\Gamma \vdash \langle M_1 , M_2 \rangle \equiv \langle N_1 , N_2 \rangle : A_1 \times A_2\) 。给定了 \(\Gamma \vdash M_1 \equiv N_1 : A_1\) 以及 \(\Gamma \vdash M_2 \equiv N_2 : A_2\)。证明 \(\langle \hat M_1, \hat M_2 \rangle \doteq \langle \hat N_1', \hat N_2' \rangle : A_1 \times A_2\) 。
+
+  递归即可……感觉像是在用自然语言写 Agda
+- \(\times\)-E-L. 递归
+- \(\times\)-E-R. 递归
+- \(\times\)-\(\beta\)-L.
+  \(\Gamma \vdash \langle M_1 , M_2 \rangle \cdot 1 \equiv M_1 : A_1\) 。
+  证明 \(\langle \hat  M_1 , \hat M_2  \rangle \cdot 1 \doteq \hat M_1' \in A_1\) 。明显有 \(\langle \hat M_1 , \hat M_2 \rangle \cdot 1 \longmapsto \hat M_1\) ，如果有 \(\hat M_1 \doteq \hat M_1 ' \) 的话能够根据定义得到 \(\langle \hat M_1 , \hat M_2 \rangle \cdot 1 \doteq \hat M_1 ' \in A_1 \) 。
+- \(\times\)-\(\beta\)-R. 差不多
+- \(\times\)-\(\eta\).
+  \(\Gamma \vdash M \equiv \langle M \cdot 1,  M \cdot 2 \rangle : A_1 \times A_2\) 给定了 \(\Gamma \vdash M : A_1 \times A_2\) 。证明 \(\hat M \doteq \langle \hat M' \cdot 1 , \hat M' \cdot 2 \rangle \in A_1 \times A_2\) 。
+  根据 \(\doteq\) 在类型 \(A_1 \times A_2\) 上的定义。需要有 \(\hat M \cdot 1 \doteq \langle \hat M' \cdot 1 , \hat M ' \cdot 2 \rangle \cdot 1\) 和 \(\hat M \cdot 2 \doteq \langle \hat M' \cdot 1 , \hat M ' \cdot 2 \rangle \cdot 2\) 。我们知道 \(\langle \hat M ' \cdot 1, \hat M ' \cdot 2\rangle \cdot 1 \longmapsto \hat M' \cdot 1\) 可以知道上面这两个是显然的。
+- \(\to\)-I.
+  \(\Gamma \vdash \lambda (x.M_2) \equiv \lambda (x. N_2) : A_1 \to A_2\).
+  已知 \(\Gamma , x : A_1 \vdash M_2 \equiv N_2 : A_2\) 。证明 \(\lambda (x . \hat M_2) \doteq \lambda (x. \hat N_2') \in A_1 \to A_2\) 。
+  根据 \(\doteq\) 在 \(A_1\to A_2\) 上的定义可以指导，我们需要证明 \(\forall M_1 \doteq M_1' \in A_1, [M_1 / x] \hat M_2 \doteq [M_1' / x] \hat N_2'\)。这需要证明 \([M_1 / x] \circ \gamma\) 以及 \([M_1' / x] \circ \gamma'\) 的 \(\doteq\) 关系（实际上是记 \(\tau = \mathrm{weaken}(\gamma)\) ，证明 \(\tau[x \mapsto M_1] \doteq \gamma' [x \mapsto M_1']\) ，这里的记号有点乱）。
+  得到了上面的 \(\doteq\) 关系之后，递归。
+- \(\to\)-E.
+  \(\Gamma \vdash \mathsf{ap}(M ; M_1)\equiv \mathsf{ap}(N ; N_1) : A_2\) 。
+  已知 \(\Gamma \vdash M \equiv N : A_1 \to A_2\) 并且 \(\Gamma \vdash M_1 \equiv N_1 : A_1\) 。
+  证明 \(\mathsf{ap}(\hat M ; \hat M_1) \doteq \mathsf{ap}(\hat N ; \hat N_1) \in A_2\) 。
+  在 \(\Gamma \vdash M \equiv N : A_1 \to A_2\) 上面递归，得到 \(\hat M \doteq \hat N' : A_1 \to A_2\) 于是能够根据定义，加上 \(\hat M_1 \doteq \hat N_1 : A_1\) 就能够得到结果
+- \(\to\)-\(\beta\).
+  \(\Gamma \vdash \mathsf{ap}(\lambda(x. M_2) ; M_1) \equiv [M_1 / x]M_2 : A_2\) 。
+  已知 \(\Gamma , x : A_1 \vdash M_2 : A_2\) 和 \(\Gamma \vdash M_1 : A_1\) 。
+  证明 \(\mathsf{ap}(\lambda (x. \hat M_2); \hat M_1) \doteq [\hat M_1' / x] \hat M_2' \in A_2\) 。
+
+  根据 \(\mathsf{ap}(\lambda (x . \hat M_2) ; \hat M_1) \longmapsto [\hat M_1 / x ] \hat M_2\)。
+  然后根据第一个 premise 得到 \(\hat M_2 \doteq \hat M_2'\)；
+  根据第二个 premise 得到 \(\hat M_1 \doteq \hat M_1'\) 根据 \(\doteq\) 的定义就有 \([\hat M_1 / x] \hat M_2 \doteq [\hat M_1' /x ] \hat M_2 '\) ，根据 head expansion 就能够证明想要的结果了。
+- \(\to\)-\(\eta\).
+  \(\Gamma \vdash M \equiv \lambda(x. \mathsf{ap}(M; x)) : A_1 \to A_2\)。
+  已知 \(\Gamma \vdash M : A_1 \to A_2\)。
+  证明 \(\hat M \doteq \lambda(x.\mathsf{ap}(\hat M' ; x)) \in A_1 \to A_2\)。
+
+  需要证明后者，我们知道，应该证明 \(\forall M_1 \doteq N_1 \in A, [M_1 / x] \hat M \doteq [N_1 / x] (x. \mathsf{ap}(\hat M' ; x)) \in A_2\)。
+  对于 \([N_1 / x](x. \mathsf{ap}(\hat M' ; x))\) 来说，其应该是 \(\mathsf{ap}(\hat M'; N_1)\) ，然后我们知道 \(\mathsf{ap}(\hat M' ; N_1) \longmapsto [N_1 / x] \hat M'\) 于是剩下的就是 induction 了。
+
+可以看见这里的这些证明并不是一些很难的东西。
+
+这里还可以加上 \(\mathsf{nat}\) 和 \(\mathsf{conat}\) 的东西。说实话不想加。

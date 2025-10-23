@@ -1,8 +1,4 @@
----
-layout: post
-title: "Semantic Equality"
-date: 2025-10-22
----
+# Semantic Equality Definition
 
 这里的
 ![\\doteq](https://latex.codecogs.com/svg.image?%5Cdoteq "\doteq")
@@ -142,9 +138,7 @@ Here is the proof. I would say that this is not that hard.
 
 Trivial!
 
-# definitional equality
-
-这里是 rules
+# Definitional (Axiomatic) Equality
 
 ![\\text{REFL} \\quad \\frac{\\Gamma \\vdash M : A}{\\Gamma \\vdash M \\equiv M : A} \\qquad
 \\text{SYM} \\quad \\frac{\\Gamma \\vdash M \\equiv N : A}{\\Gamma \\vdash N \\equiv M : A}](https://latex.codecogs.com/svg.image?%5Ctext%7BREFL%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%3A%20A%7D%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20M%20%3A%20A%7D%20%5Cqquad%0A%5Ctext%7BSYM%7D%20%5Cquad%20%5Cfrac%7B%5CGamma%20%5Cvdash%20M%20%5Cequiv%20N%20%3A%20A%7D%7B%5CGamma%20%5Cvdash%20N%20%5Cequiv%20M%20%3A%20A%7D "\text{REFL} \quad \frac{\Gamma \vdash M : A}{\Gamma \vdash M \equiv M : A} \qquad
@@ -186,15 +180,12 @@ If
 then
 ![\\hat \\gamma (M) \\doteq \\hat \\gamma \' (N) \\in A](https://latex.codecogs.com/svg.image?%5Chat%20%5Cgamma%20%28M%29%20%5Cdoteq%20%5Chat%20%5Cgamma%20%27%20%28N%29%20%5Cin%20A "\hat \gamma (M) \doteq \hat \gamma ' (N) \in A"),
 for all
-![\\gamma \\doteq \\gamma\' \\in \\Gamma](https://latex.codecogs.com/svg.image?%5Cgamma%20%5Cdoteq%20%5Cgamma%27%20%5Cin%20%5CGamma "\gamma \doteq \gamma' \in \Gamma")。注意到
-![M](https://latex.codecogs.com/svg.image?M "M") 和
-![N](https://latex.codecogs.com/svg.image?N "N") 是
-![\\equiv](https://latex.codecogs.com/svg.image?%5Cequiv "\equiv") 而
-![\\gamma](https://latex.codecogs.com/svg.image?%5Cgamma "\gamma") 和
-![\\gamma\'](https://latex.codecogs.com/svg.image?%5Cgamma%27 "\gamma'")
-是 ![\\doteq](https://latex.codecogs.com/svg.image?%5Cdoteq "\doteq")
-，最终的结果也是
-![\\doteq](https://latex.codecogs.com/svg.image?%5Cdoteq "\doteq") 。
+![\\gamma \\doteq \\gamma\' \\in \\Gamma](https://latex.codecogs.com/svg.image?%5Cgamma%20%5Cdoteq%20%5Cgamma%27%20%5Cin%20%5CGamma "\gamma \doteq \gamma' \in \Gamma")。注意这里和
+![\\Gamma \\gg M \\doteq M\' \\in A](https://latex.codecogs.com/svg.image?%5CGamma%20%5Cgg%20M%20%5Cdoteq%20M%27%20%5Cin%20A "\Gamma \gg M \doteq M' \in A")
+不太一样。这里的是通过
+![\\equiv](https://latex.codecogs.com/svg.image?%5Cequiv "\equiv")
+的到了
+![\\doteq](https://latex.codecogs.com/svg.image?%5Cdoteq "\doteq")。
 
 证明可以是类似的。可以看见
 ![\\equiv](https://latex.codecogs.com/svg.image?%5Cequiv "\equiv")
@@ -204,7 +195,7 @@ for all
 
 但是 ![\\equiv](https://latex.codecogs.com/svg.image?%5Cequiv "\equiv")
 的 rule 足足有 14 条，我们的证明将会非常的 verbose
-而且没什么意义：但依然
+而且没什么意义，但依然
 
 -   REFL.
     ![\\Gamma \\vdash M \\equiv M : A](https://latex.codecogs.com/svg.image?%5CGamma%20%5Cvdash%20M%20%5Cequiv%20M%20%3A%20A "\Gamma \vdash M \equiv M : A")
@@ -257,10 +248,11 @@ for all
     。给定了
     ![\\Gamma \\vdash M_1 \\equiv N_1 : A_1](https://latex.codecogs.com/svg.image?%5CGamma%20%5Cvdash%20M_1%20%5Cequiv%20N_1%20%3A%20A_1 "\Gamma \vdash M_1 \equiv N_1 : A_1")
     以及
-    ![\\Gamma \\vdash M_2 \\equiv N_2 : A_2](https://latex.codecogs.com/svg.image?%5CGamma%20%5Cvdash%20M_2%20%5Cequiv%20N_2%20%3A%20A_2 "\Gamma \vdash M_2 \equiv N_2 : A_2")
-    。证明
+    ![\\Gamma \\vdash M_2 \\equiv N_2 : A_2](https://latex.codecogs.com/svg.image?%5CGamma%20%5Cvdash%20M_2%20%5Cequiv%20N_2%20%3A%20A_2 "\Gamma \vdash M_2 \equiv N_2 : A_2")。证明
     ![\\langle \\hat M_1, \\hat M_2 \\rangle \\doteq \\langle \\hat N_1\', \\hat N_2\' \\rangle : A_1 \\times A_2](https://latex.codecogs.com/svg.image?%5Clangle%20%5Chat%20M_1%2C%20%5Chat%20M_2%20%5Crangle%20%5Cdoteq%20%5Clangle%20%5Chat%20N_1%27%2C%20%5Chat%20N_2%27%20%5Crangle%20%3A%20A_1%20%5Ctimes%20A_2 "\langle \hat M_1, \hat M_2 \rangle \doteq \langle \hat N_1', \hat N_2' \rangle : A_1 \times A_2")
-    。 递归即可......感觉像是在用自然语言写 Agda
+    。
+
+    递归即可......感觉像是在用自然语言写 Agda
 
 -   ![\\times](https://latex.codecogs.com/svg.image?%5Ctimes "\times")-E-L.
     递归
@@ -353,10 +345,10 @@ for all
     。
 
     根据
-    ![\\mathsf{ap}(\\lambda (x . \\hat M_2) ; \\hat M_1) \\longmapsto \[\\hat M_1 / x \] \\hat M_2](https://latex.codecogs.com/svg.image?%5Cmathsf%7Bap%7D%28%5Clambda%20%28x%20.%20%5Chat%20M_2%29%20%3B%20%5Chat%20M_1%29%20%5Clongmapsto%20%5B%5Chat%20M_1%20%2F%20x%20%5D%20%5Chat%20M_2 "\mathsf{ap}(\lambda (x . \hat M_2) ; \hat M_1) \longmapsto [\hat M_1 / x ] \hat M_2")
-    。 然后根据第一个 premise 得到
-    ![\\hat M_2 \\doteq \\hat M_2\'](https://latex.codecogs.com/svg.image?%5Chat%20M_2%20%5Cdoteq%20%5Chat%20M_2%27 "\hat M_2 \doteq \hat M_2'")
-    ； 根据第二个 premise 得到
+    ![\\mathsf{ap}(\\lambda (x . \\hat M_2) ; \\hat M_1) \\longmapsto \[\\hat M_1 / x \] \\hat M_2](https://latex.codecogs.com/svg.image?%5Cmathsf%7Bap%7D%28%5Clambda%20%28x%20.%20%5Chat%20M_2%29%20%3B%20%5Chat%20M_1%29%20%5Clongmapsto%20%5B%5Chat%20M_1%20%2F%20x%20%5D%20%5Chat%20M_2 "\mathsf{ap}(\lambda (x . \hat M_2) ; \hat M_1) \longmapsto [\hat M_1 / x ] \hat M_2")。
+    然后根据第一个 premise 得到
+    ![\\hat M_2 \\doteq \\hat M_2\'](https://latex.codecogs.com/svg.image?%5Chat%20M_2%20%5Cdoteq%20%5Chat%20M_2%27 "\hat M_2 \doteq \hat M_2'")；
+    根据第二个 premise 得到
     ![\\hat M_1 \\doteq \\hat M_1\'](https://latex.codecogs.com/svg.image?%5Chat%20M_1%20%5Cdoteq%20%5Chat%20M_1%27 "\hat M_1 \doteq \hat M_1'")
     根据
     ![\\doteq](https://latex.codecogs.com/svg.image?%5Cdoteq "\doteq")
@@ -365,16 +357,15 @@ for all
     ，根据 head expansion 就能够证明想要的结果了。
 
 -   ![\\to](https://latex.codecogs.com/svg.image?%5Cto "\to")-![\\eta](https://latex.codecogs.com/svg.image?%5Ceta "\eta").
-    ![\\Gamma \\vdash M \\equiv \\lambda(x. \\mathsf{ap}(M; x)) : A_1 \\to A_2](https://latex.codecogs.com/svg.image?%5CGamma%20%5Cvdash%20M%20%5Cequiv%20%5Clambda%28x.%20%5Cmathsf%7Bap%7D%28M%3B%20x%29%29%20%3A%20A_1%20%5Cto%20A_2 "\Gamma \vdash M \equiv \lambda(x. \mathsf{ap}(M; x)) : A_1 \to A_2")
-    。 已知
-    ![\\Gamma \\vdash M : A_1 \\to A_2](https://latex.codecogs.com/svg.image?%5CGamma%20%5Cvdash%20M%20%3A%20A_1%20%5Cto%20A_2 "\Gamma \vdash M : A_1 \to A_2")
-    。 证明
-    ![\\hat M \\doteq \\lambda(x.\\mathsf{ap}(\\hat M\' ; x)) \\in A_1 \\to A_2](https://latex.codecogs.com/svg.image?%5Chat%20M%20%5Cdoteq%20%5Clambda%28x.%5Cmathsf%7Bap%7D%28%5Chat%20M%27%20%3B%20x%29%29%20%5Cin%20A_1%20%5Cto%20A_2 "\hat M \doteq \lambda(x.\mathsf{ap}(\hat M' ; x)) \in A_1 \to A_2")
-    。
+    ![\\Gamma \\vdash M \\equiv \\lambda(x. \\mathsf{ap}(M; x)) : A_1 \\to A_2](https://latex.codecogs.com/svg.image?%5CGamma%20%5Cvdash%20M%20%5Cequiv%20%5Clambda%28x.%20%5Cmathsf%7Bap%7D%28M%3B%20x%29%29%20%3A%20A_1%20%5Cto%20A_2 "\Gamma \vdash M \equiv \lambda(x. \mathsf{ap}(M; x)) : A_1 \to A_2")。
+    已知
+    ![\\Gamma \\vdash M : A_1 \\to A_2](https://latex.codecogs.com/svg.image?%5CGamma%20%5Cvdash%20M%20%3A%20A_1%20%5Cto%20A_2 "\Gamma \vdash M : A_1 \to A_2")。
+    证明
+    ![\\hat M \\doteq \\lambda(x.\\mathsf{ap}(\\hat M\' ; x)) \\in A_1 \\to A_2](https://latex.codecogs.com/svg.image?%5Chat%20M%20%5Cdoteq%20%5Clambda%28x.%5Cmathsf%7Bap%7D%28%5Chat%20M%27%20%3B%20x%29%29%20%5Cin%20A_1%20%5Cto%20A_2 "\hat M \doteq \lambda(x.\mathsf{ap}(\hat M' ; x)) \in A_1 \to A_2")。
 
     需要证明后者，我们知道，应该证明
-    ![\\forall M_1 \\doteq N_1 \\in A, \[M_1 / x\] \\hat M \\doteq \[N_1 / x\] (x. \\mathsf{ap}(\\hat M\' ; x)) \\in A_2](https://latex.codecogs.com/svg.image?%5Cforall%20M_1%20%5Cdoteq%20N_1%20%5Cin%20A%2C%20%5BM_1%20%2F%20x%5D%20%5Chat%20M%20%5Cdoteq%20%5BN_1%20%2F%20x%5D%20%28x.%20%5Cmathsf%7Bap%7D%28%5Chat%20M%27%20%3B%20x%29%29%20%5Cin%20A_2 "\forall M_1 \doteq N_1 \in A, [M_1 / x] \hat M \doteq [N_1 / x] (x. \mathsf{ap}(\hat M' ; x)) \in A_2")
-    。 对于
+    ![\\forall M_1 \\doteq N_1 \\in A, \[M_1 / x\] \\hat M \\doteq \[N_1 / x\] (x. \\mathsf{ap}(\\hat M\' ; x)) \\in A_2](https://latex.codecogs.com/svg.image?%5Cforall%20M_1%20%5Cdoteq%20N_1%20%5Cin%20A%2C%20%5BM_1%20%2F%20x%5D%20%5Chat%20M%20%5Cdoteq%20%5BN_1%20%2F%20x%5D%20%28x.%20%5Cmathsf%7Bap%7D%28%5Chat%20M%27%20%3B%20x%29%29%20%5Cin%20A_2 "\forall M_1 \doteq N_1 \in A, [M_1 / x] \hat M \doteq [N_1 / x] (x. \mathsf{ap}(\hat M' ; x)) \in A_2")。
+    对于
     ![\[N_1 / x\](x. \\mathsf{ap}(\\hat M\' ; x))](https://latex.codecogs.com/svg.image?%5BN_1%20%2F%20x%5D%28x.%20%5Cmathsf%7Bap%7D%28%5Chat%20M%27%20%3B%20x%29%29 "[N_1 / x](x. \mathsf{ap}(\hat M' ; x))")
     来说，其应该是
     ![\\mathsf{ap}(\\hat M\'; N_1)](https://latex.codecogs.com/svg.image?%5Cmathsf%7Bap%7D%28%5Chat%20M%27%3B%20N_1%29 "\mathsf{ap}(\hat M'; N_1)")
