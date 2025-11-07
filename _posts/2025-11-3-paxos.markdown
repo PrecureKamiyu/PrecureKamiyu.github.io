@@ -1,0 +1,69 @@
+---
+layout: post
+title: "Paxos"
+date: 2025-11-3
+---
+
+# paxos
+
+用 Leslie Lamport 的话来说
+
+> The Paxos algorithm, when presented in plain English, is very simple.
+
+实际上也确实如此。网上会有大量的 blog 讲解 paxos，并且在说 paxos
+为什么不能流行起来的时候，总是会说，Paxos 很难懂。
+
+实际上我们得先从 Paxos 的环境的建模（假设）说起：Paxos 假设 Reliable
+Channel 和 Fail-stop Failure。
+
+在考虑这个前提的情况下，可以说 (Multi-)Paxos 很简单。最基础的 2-Phase
+Protocol 很多人也已经清楚了，也就是保证 1. 大部分人在听从一个人的指挥 2.
+大部分人都听到了一个人的指挥。
+
+在 Paxos 里面有三个角色
+
+-   Replica: 从 client 处接受 request，会对 request 做出 proposal 发送到
+    leader。
+-   Leader: Leader 和 Acceptor 会有 Synod Protocol 来为一个 proposal
+    做出 Decision：1 Leader 会尝试争抢最新的 Ballot，若是大部分的
+    Acceptor 都同意这个 ballot，并且没有收到否定，则 Leader
+    认为其占有了这个 Ballot 2 在拥有这个 Ballot 之后，发送
+    proposal，类似的，如果受到了大部分的 acceptor 的同意，则为这个
+    proposal 做出决定，向 replica 发送 Decision 消息。
+-   Acceptor: Acceptor 会存有一个 Ballot，若是知道 Leader 要想获取
+    Ballot，如果这个 Ballot 是小于 Acceptor 的
+    Ballot，则否定，反之，同意。
+
+Leader 刚刚获取到 Ballot
+的时候，它所持有的知识应该更新到最新，也就是他应该指导以前的 Ballot
+的那些 Leader 所发送给 Acceptor 的请求，以防止那些已经被 Acceptor 接受的
+proposal 和自己所知道的 proposal 之间有冲突。所以 Phase1b 消息还会带有
+Acceptor 接受的 proposal 的。
+
+可以看见逻辑非常清晰。但是不切实际，因为这样为了容忍
+![f](https://latex.codecogs.com/svg.image?f "f") 个错误，需要
+
+-   Replica: ![f+1](https://latex.codecogs.com/svg.image?f%2B1 "f+1")
+-   Leader:
+    ![f + 1](https://latex.codecogs.com/svg.image?f%20%2B%201 "f + 1")
+-   Acceptor:
+    ![2 f + 1](https://latex.codecogs.com/svg.image?2%20f%20%2B%201 "2 f + 1")
+
+算下来就是
+![4 f + 1](https://latex.codecogs.com/svg.image?4%20f%20%2B%201 "4 f + 1")。
+
+并且 Fail-stop 和 Reliable Channel 这两都是不切实际的。
+
+基本上问题都是出在这两个假设。所以实现起来各式各样的，乱七八糟。Raft
+的做法与之相反，甚至是牺牲掉了一些性能用以保障安全:
+
+-   针对 Reliable Channel：Raft
+    用的方法效率不高，但明显是正确的、容易实现的
+-   Recovery: 有时 Recovery 指的是新设备上线。Raft 也写明了，通过
+    Snapshot 实现
+
+假如说，有些人 Multi-Paxos 的性能好比 Raft
+好，怎么怎么样。那这不废话吗，所以不妨问一下两个问题在实现 Multi-Paxos
+的过程之中如何解决，能不能解决得比 Raft 更好。
+
+Chubby 的论文已经说的够多了
